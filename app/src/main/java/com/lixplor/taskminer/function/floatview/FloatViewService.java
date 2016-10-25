@@ -200,6 +200,7 @@ public class FloatViewService extends Service {
         param.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
         param.format = PixelFormat.TRANSLUCENT;
         param.flags = WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
                 | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
 //                | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
         param.alpha = 0.9f;
@@ -256,7 +257,6 @@ public class FloatViewService extends Service {
     private void toggleInputWindow() {
         if (View.GONE == mLlInputWindow.getVisibility()) {
             mLlInputWindow.setVisibility(View.VISIBLE);
-//            playShowDialogSoundEffect();
             if (isDoingTask) {
                 mBtnCancel.setText("放弃");
                 mBtnConfirm.setText("完成");
@@ -266,6 +266,7 @@ public class FloatViewService extends Service {
             }
             WindowManager.LayoutParams params = (WindowManager.LayoutParams) mFloatView.getLayoutParams();
             params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                    | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
                     | WindowManager.LayoutParams.FLAG_DIM_BEHIND;
             params.dimAmount = 0.9f;
             mWindowManager.updateViewLayout(mFloatView, params);
@@ -277,9 +278,9 @@ public class FloatViewService extends Service {
             mTvTaskContent.setFocusableInTouchMode(true);
             mTvTaskContent.setFocusable(true);
             mTvTaskContent.setSelected(true);
-//            playHideDialogSoundEffect();
             WindowManager.LayoutParams params = (WindowManager.LayoutParams) mFloatView.getLayoutParams();
-            params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+            params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                    | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
             mWindowManager.updateViewLayout(mFloatView, params);
         }
     }
