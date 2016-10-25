@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:background="@color/bg_main"
+              android:layout_width="match_parent"
+              android:layout_height="50dp">
+
+    <FrameLayout
+        android:layout_width="50dp"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:id="@+id/iv_status_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/green"/>
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="14dp"
+            android:gravity="center"
+            style="@style/text_white"
+            android:text="成功"/>
+
+        <TextView
+            android:id="@+id/tv_id"
+            android:layout_width="match_parent"
+            android:layout_height="14dp"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:background="@color/gray_trans"
+            style="@style/text_white"
+            android:textSize="10sp"
+            android:text="#0"/>
+
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:padding="4dp">
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="80dp"
+            style="@style/text_white"
+            android:gravity="center_vertical"
+            android:textSize="16sp"
+            android:text="搞定UI"/>
+
+        <TextView
+            android:id="@+id/tv_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            style="@style/text_white"
+            android:text="31/60分钟"/>
+
+        <TextView
+            android:id="@+id/tv_bonus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="20dp"
+            style="@style/text_white"
+            android:textColor="@color/gold_stroke"
+            android:text="60/60"/>
+
+        <TextView
+            android:id="@+id/tv_coin"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/shp_coin"
+            android:gravity="center"
+            android:text="G"
+            android:textColor="@color/gold_stroke"
+            android:textSize="12sp"
+            android:textStyle="bold"/>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_del"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/gray_trans"
+        style="@style/text_white"
+        android:text="×"
+        android:visibility="visible"/>
+
+</LinearLayout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/theme_title</color>
+    <color name="colorPrimaryDark">@color/theme_title</color>
+    <color name="colorAccent">#22447B</color>
+
+
+    <color name="gray_light">#cccccc</color>
+    <!--<color name="red">#FA6674</color>-->
+    <color name="pink">#F3B2A8</color>
+    <color name="yellow">#EBCDB5</color>
+    <!--<color name="green">#31C7B2</color>-->
+    <color name="green_light">#BDEED1</color>
+    <color name="blue_light">#A3E8E4</color>
+
+    <color name="theme_title">#8F4C22</color>
+    <color name="theme_bg">#D7B170</color>
+
+    <color name="text_normal">#604632</color>
+
+    <color name="progress_main_light">#F1F9D6</color>
+    <color name="progress_main_dark">#44E037</color>
+    <color name="progress_sec_light">#FED132</color>
+    <color name="progress_sec_dark">#FB4C1E</color>
+
+    <color name="btn_start_bg_light">#FFF73A</color>
+    <color name="btn_start_bg_dark">#D2C12C</color>
+    <color name="btn_start_stroke">#7E6322</color>
+
+    <color name="dialog_title_stroke">#5B4F59</color>
+    <color name="dialog_title_bg">#E8C9B4</color>
+    <color name="dialog_btn_bg">#E8C9B4</color>
+    <color name="dialog_btn_stroke">#917C5E</color>
+    <color name="dialog_bg">#E7C89B</color>
+    <color name="dialog_stroke">#936C3F</color>
+
+    <color name="red">#FF5252</color>
+    <color name="green">#8BC34A</color>
+    <color name="gray_trans">#44ffffff</color>
+    <color name="transparent">#00000000</color>
+    <color name="bg_main">#88000000</color>
+
+    <color name="gold_solid">#F5DC68</color>
+    <color name="gold_stroke">#E7AF3F</color>
+
+
+</resources>
