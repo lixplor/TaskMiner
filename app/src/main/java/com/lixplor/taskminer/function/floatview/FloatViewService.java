@@ -244,6 +244,7 @@ public class FloatViewService extends Service {
                         mWindowManager.updateViewLayout(mFloatView, param);
                         lastX = moveX;
                         lastY = moveY;
+                        break;
                     case MotionEvent.ACTION_CANCEL:
                         isMoved = true;
                         break;
