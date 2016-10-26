@@ -1,169 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="140dp"
-              android:layout_height="wrap_content"
-              android:background="@drawable/shp_floatview_bg"
-              android:orientation="vertical">
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_symbol"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_gravity="center"
+        android:background="@drawable/shp_coin_big"
+        android:gravity="center"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:clickable="true"
+        android:alpha="0.5"
+        android:text="G"
+        android:textColor="@color/gold_stroke"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="gone"/>
 
     <LinearLayout
-        android:id="@+id/ll_root"
-        android:layout_width="match_parent"
+        android:id="@+id/ll_main"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:background="@drawable/shp_floatview_bg"
+        android:orientation="vertical"
+        android:visibility="visible">
 
-        <FrameLayout
+        <LinearLayout
+            android:id="@+id/ll_title"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <ProgressBar
-                android:id="@+id/pb_progress"
-                style="@style/countdownpb_horizontal"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:max="100"
-                android:progress="100"
-                android:secondaryProgress="0"/>
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <ProgressBar
+                    android:id="@+id/pb_progress"
+                    style="@style/countdownpb_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:max="100"
+                    android:progress="100"
+                    android:secondaryProgress="0"/>
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    style="@style/text_white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:layout_marginLeft="4dp"
+                    android:gravity="center"
+                    android:text="::TaskMiner::"/>
+
+                <TextView
+                    android:id="@+id/tv_bonus"
+                    style="@style/text_white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="19dp"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/gold_solid"/>
+
+                <TextView
+                    android:id="@+id/tv_coin"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="4dp"
+                    android:background="@drawable/shp_coin"
+                    android:gravity="center"
+                    android:text="G"
+                    android:textColor="@color/gold_stroke"
+                    android:textSize="8sp"
+                    android:textStyle="bold"/>
+
+            </FrameLayout>
 
             <TextView
-                android:id="@+id/tv_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical"
-                android:layout_marginLeft="4dp"
-                android:gravity="center"
+                android:id="@+id/tv_task_content"
                 style="@style/text_white"
-                android:text="::TaskMiner::"/>
-
-            <TextView
-                android:id="@+id/tv_bonus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
-                android:layout_marginRight="19dp"
-                android:gravity="center"
-                style="@style/text_white"
-                android:text="0"
-                android:textColor="@color/gold_solid"/>
-
-            <TextView
-                android:id="@+id/tv_coin"
-                android:layout_width="13dp"
-                android:layout_height="13dp"
-                android:layout_gravity="right|center_vertical"
-                android:layout_marginRight="4dp"
-                android:background="@drawable/shp_coin"
-                android:gravity="center"
-                android:text="G"
-                android:textColor="@color/gold_stroke"
-                android:textSize="8sp"
-                android:textStyle="bold"/>
-
-        </FrameLayout>
-
-        <TextView
-            android:id="@+id/tv_task_content"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:ellipsize="marquee"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:gravity="center_vertical"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            style="@style/text_white"
-            android:singleLine="true"
-            android:text="暂无任务"
-            tools:text="这是任务内容, 如果内容很长, 会使用marquee效果滚动"/>
-    </LinearLayout>
-
-
-    <!-- popup window -->
-    <LinearLayout
-        android:id="@+id/ll_input_window"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/et_task_content"
-            style="@style/text_white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/gray_trans"
-            android:hint="输入任务"
-            android:padding="4dp"
-            android:textColorHint="#aaa"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_time_minus"
-                style="@style/text_white"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/slct_floatview_btn"
-                android:text="-"/>
-
-            <TextView
-                android:id="@+id/tv_time_expect"
-                style="@style/text_white"
-                android:layout_width="18dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="5"/>
-
-            <TextView
-                style="@style/text_white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="分钟"/>
-
-            <Button
-                android:id="@+id/btn_time_plus"
-                style="@style/text_white"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:background="@drawable/slct_floatview_btn"
-                android:text="+"/>
-
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:singleLine="true"
+                android:text="暂无任务"
+                tools:text="这是任务内容, 如果内容很长, 会使用marquee效果滚动"/>
         </LinearLayout>
 
+
+        <!-- popup window -->
         <LinearLayout
+            android:id="@+id/ll_input_window"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:visibility="gone">
 
-            <Button
-                android:id="@+id/btn_cancel"
+            <EditText
+                android:id="@+id/et_task_content"
                 style="@style/text_white"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:background="@drawable/slct_floatview_btn_cancel"
-                android:text="取消"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray_trans"
+                android:hint="输入任务"
+                android:padding="4dp"
+                android:textColorHint="#aaa"/>
 
-            <Button
-                android:id="@+id/btn_confirm"
-                style="@style/text_white"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:background="@drawable/slct_floatview_btn_confirm"
-                android:text="开始"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_time_minus"
+                    style="@style/text_white"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/slct_floatview_btn"
+                    android:text="-"/>
+
+                <TextView
+                    android:id="@+id/tv_time_expect"
+                    style="@style/text_white"
+                    android:layout_width="18dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="5"/>
+
+                <TextView
+                    style="@style/text_white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="分钟"/>
+
+                <Button
+                    android:id="@+id/btn_time_plus"
+                    style="@style/text_white"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/slct_floatview_btn"
+                    android:text="+"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_cancel"
+                    style="@style/text_white"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/slct_floatview_btn_cancel"
+                    android:text="取消"/>
+
+                <Button
+                    android:id="@+id/btn_confirm"
+                    style="@style/text_white"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/slct_floatview_btn_confirm"
+                    android:text="开始"/>
+
+            </LinearLayout>
 
         </LinearLayout>
-
     </LinearLayout>
 
-</LinearLayout>
+</FrameLayout>

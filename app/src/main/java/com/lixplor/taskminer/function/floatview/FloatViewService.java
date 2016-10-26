@@ -80,8 +80,8 @@ public class FloatViewService extends Service {
     TextView mTvTime;
     @BindView(R.id.tv_bonus)
     TextView mTvBonus;
-    @BindView(R.id.ll_root)
-    LinearLayout mLlRoot;
+    @BindView(R.id.ll_title)
+    LinearLayout mLlTitle;
     @BindView(R.id.ll_input_window)
     LinearLayout mLlInputWindow;
     @BindView(R.id.tv_coin)
@@ -98,6 +98,10 @@ public class FloatViewService extends Service {
     Button mBtnCancel;
     @BindView(R.id.btn_confirm)
     Button mBtnConfirm;
+    @BindView(R.id.tv_symbol)
+    TextView mTvSymbol;
+    @BindView(R.id.ll_main)
+    LinearLayout mLlMain;
 
     private View mFloatView;
     private WindowManager mWindowManager;
@@ -208,14 +212,15 @@ public class FloatViewService extends Service {
         param.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE;
         param.alpha = 0.9f;
         param.gravity = Gravity.LEFT | Gravity.TOP;
-        param.width = dp2px(140);
+        param.width = WindowManager.LayoutParams.WRAP_CONTENT;
         param.height = WindowManager.LayoutParams.WRAP_CONTENT;
         param.x = (screenWidth - param.width) / 2;
         param.y = (screenHeight - param.height) / 2;
 
         mFloatView = View.inflate(this, R.layout.view_float_window, null);
         ButterKnife.bind(this, mFloatView);
-        setTouchEvent(mLlRoot);
+        setTouchEvent(mLlTitle);
+        setTouchEvent(mTvSymbol);
         mWindowManager.addView(mFloatView, param);
     }
 
@@ -245,6 +250,9 @@ public class FloatViewService extends Service {
                         lastX = moveX;
                         lastY = moveY;
                         break;
+                    case MotionEvent.ACTION_UP:
+                        transformLayout();
+                        break;
                     case MotionEvent.ACTION_CANCEL:
                         isMoved = true;
                         break;
@@ -254,20 +262,43 @@ public class FloatViewService extends Service {
         });
     }
 
-    private WindowManager.LayoutParams restrictLimit(WindowManager.LayoutParams param){
-        if(param.x < 0){
+    private void transformLayout(){
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        WindowManager.LayoutParams upParam = (WindowManager.LayoutParams) mFloatView.getLayoutParams();
+        int floatWindowRight = upParam.x + mFloatView.getMeasuredWidth();
+
+        if (floatWindowRight >= metrics.widthPixels || upParam.x <= 0) {
+            // left or right edge, transform from bar to symbol
+            if(View.VISIBLE == mLlMain.getVisibility()){
+                mLlMain.setVisibility(View.GONE);
+                mTvSymbol.setVisibility(View.VISIBLE);
+            }
+            // when goes to right side, let symbol shrink to right side
+            if(floatWindowRight >= metrics.widthPixels && View.VISIBLE == mTvSymbol.getVisibility()){
+                upParam.x = metrics.widthPixels - mTvSymbol.getMeasuredWidth();
+                mWindowManager.updateViewLayout(mFloatView, upParam);
+            }
+        }else if (View.VISIBLE != mLlMain.getVisibility()){
+            // not edge, transform from symbol to bar
+            mLlMain.setVisibility(View.VISIBLE);
+            mTvSymbol.setVisibility(View.GONE);
+        }
+    }
+
+    private WindowManager.LayoutParams restrictLimit(WindowManager.LayoutParams param) {
+        if (param.x < 0) {
             param.x = 0;
         }
-        if(param.y < 0){
+        if (param.y < 0) {
             param.y = 0;
         }
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         int rightLimit = displayMetrics.widthPixels - mFloatView.getMeasuredWidth();
-        if(param.x > rightLimit){
+        if (param.x > rightLimit) {
             param.x = rightLimit;
         }
         int bottomLimit = displayMetrics.heightPixels - mFloatView.getMeasuredHeight();
-        if(param.y > bottomLimit){
+        if (param.y > bottomLimit) {
             param.y = bottomLimit;
         }
         return param;
@@ -439,10 +470,10 @@ public class FloatViewService extends Service {
         sendBroadcast(intent);
     }
 
-    @OnClick({R.id.ll_root, R.id.btn_time_minus, R.id.btn_time_plus, R.id.btn_cancel, R.id.btn_confirm})
+    @OnClick({R.id.ll_title, R.id.btn_time_minus, R.id.btn_time_plus, R.id.btn_cancel, R.id.btn_confirm})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.ll_root:
+            case R.id.ll_title:
                 toggleInputWindow();
                 break;
             case R.id.btn_time_minus:
