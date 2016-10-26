@@ -196,19 +196,21 @@ public class FloatViewService extends Service {
 
     private void createFloatView() {
         mWindowManager = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+        int screenWidth = mWindowManager.getDefaultDisplay().getWidth();
+        int screenHeight = mWindowManager.getDefaultDisplay().getHeight();
         WindowManager.LayoutParams param = new WindowManager.LayoutParams();
         param.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
         param.format = PixelFormat.TRANSLUCENT;
         param.flags = WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
                 | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
                 | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-//                | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
+        param.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE;
         param.alpha = 0.9f;
         param.gravity = Gravity.LEFT | Gravity.TOP;
-        param.x = 0;
-        param.y = 0;
         param.width = dp2px(140);
         param.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        param.x = (screenWidth - param.width) / 2;
+        param.y = (screenHeight - param.height) / 2;
 
         mFloatView = View.inflate(this, R.layout.view_float_window, null);
         ButterKnife.bind(this, mFloatView);
