@@ -33,6 +33,7 @@ import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -239,6 +240,7 @@ public class FloatViewService extends Service {
                         WindowManager.LayoutParams param = (WindowManager.LayoutParams) mFloatView.getLayoutParams();
                         param.x += (int) (moveX - lastX);
                         param.y += (int) (moveY - lastY);
+                        param = restrictLimit(param);
                         mWindowManager.updateViewLayout(mFloatView, param);
                         lastX = moveX;
                         lastY = moveY;
@@ -249,7 +251,25 @@ public class FloatViewService extends Service {
                 return isMoved;
             }
         });
+    }
 
+    private WindowManager.LayoutParams restrictLimit(WindowManager.LayoutParams param){
+        if(param.x < 0){
+            param.x = 0;
+        }
+        if(param.y < 0){
+            param.y = 0;
+        }
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        int rightLimit = displayMetrics.widthPixels - mFloatView.getMeasuredWidth();
+        if(param.x > rightLimit){
+            param.x = rightLimit;
+        }
+        int bottomLimit = displayMetrics.heightPixels - mFloatView.getMeasuredHeight();
+        if(param.y > bottomLimit){
+            param.y = bottomLimit;
+        }
+        return param;
     }
 
     private int dp2px(int dp) {
