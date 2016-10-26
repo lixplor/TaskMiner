@@ -251,7 +251,7 @@ public class FloatViewService extends Service {
                         lastY = moveY;
                         break;
                     case MotionEvent.ACTION_UP:
-                        if(isMoved && View.VISIBLE != mLlInputWindow.getVisibility()){
+                        if (isMoved && View.VISIBLE != mLlInputWindow.getVisibility()) {
                             transformLayout();
                         }
                         break;
@@ -264,23 +264,23 @@ public class FloatViewService extends Service {
         });
     }
 
-    private void transformLayout(){
+    private void transformLayout() {
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         WindowManager.LayoutParams upParam = (WindowManager.LayoutParams) mFloatView.getLayoutParams();
         int floatWindowRight = upParam.x + mFloatView.getMeasuredWidth();
 
         if (floatWindowRight >= metrics.widthPixels || upParam.x <= 0) {
             // left or right edge, transform from bar to symbol
-            if(View.VISIBLE == mLlMain.getVisibility()){
+            if (View.VISIBLE == mLlMain.getVisibility()) {
                 mLlMain.setVisibility(View.GONE);
                 mTvSymbol.setVisibility(View.VISIBLE);
             }
             // when goes to right side, let symbol shrink to right side
-            if(floatWindowRight >= metrics.widthPixels && View.VISIBLE == mTvSymbol.getVisibility()){
+            if (floatWindowRight >= metrics.widthPixels && View.VISIBLE == mTvSymbol.getVisibility()) {
                 upParam.x = metrics.widthPixels - mTvSymbol.getMeasuredWidth();
                 mWindowManager.updateViewLayout(mFloatView, upParam);
             }
-        }else if (View.VISIBLE != mLlMain.getVisibility()){
+        } else if (View.VISIBLE != mLlMain.getVisibility()) {
             // not edge, transform from symbol to bar
             mLlMain.setVisibility(View.VISIBLE);
             mTvSymbol.setVisibility(View.GONE);
