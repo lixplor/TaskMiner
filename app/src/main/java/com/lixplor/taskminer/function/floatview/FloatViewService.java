@@ -251,7 +251,9 @@ public class FloatViewService extends Service {
                         lastY = moveY;
                         break;
                     case MotionEvent.ACTION_UP:
-                        transformLayout();
+                        if(isMoved && View.VISIBLE != mLlInputWindow.getVisibility()){
+                            transformLayout();
+                        }
                         break;
                     case MotionEvent.ACTION_CANCEL:
                         isMoved = true;
