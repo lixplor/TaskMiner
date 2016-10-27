@@ -72,18 +72,13 @@
             android:textColor="@color/gold_stroke"
             android:text="60/60"/>
 
-        <TextView
-            android:id="@+id/tv_coin"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+        <ImageView
+            android:id="@+id/iv_coin"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:background="@drawable/shp_coin"
-            android:gravity="center"
-            android:text="G"
-            android:textColor="@color/gold_stroke"
-            android:textSize="12sp"
-            android:textStyle="bold"/>
+            android:src="@drawable/vc_coin"/>
 
     </RelativeLayout>
 

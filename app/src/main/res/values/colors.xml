@@ -40,8 +40,8 @@
     <color name="transparent">#00000000</color>
     <color name="bg_main">#88000000</color>
 
-    <color name="gold_solid">#F5DC68</color>
-    <color name="gold_stroke">#E7AF3F</color>
+    <color name="gold_solid">#EEB22D</color>
+    <color name="gold_stroke">#F6D184</color>
 
 
 </resources>

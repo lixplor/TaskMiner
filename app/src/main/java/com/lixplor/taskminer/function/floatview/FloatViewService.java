@@ -46,6 +46,7 @@ import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -84,8 +85,8 @@ public class FloatViewService extends Service {
     LinearLayout mLlTitle;
     @BindView(R.id.ll_input_window)
     LinearLayout mLlInputWindow;
-    @BindView(R.id.tv_coin)
-    TextView mTvCoin;
+    @BindView(R.id.iv_coin)
+    ImageView mIvCoin;
     @BindView(R.id.et_task_content)
     EditText mEtTaskContent;
     @BindView(R.id.btn_time_minus)
@@ -98,8 +99,8 @@ public class FloatViewService extends Service {
     Button mBtnCancel;
     @BindView(R.id.btn_confirm)
     Button mBtnConfirm;
-    @BindView(R.id.tv_symbol)
-    TextView mTvSymbol;
+    @BindView(R.id.iv_symbol)
+    ImageView mIvSymbol;
     @BindView(R.id.ll_main)
     LinearLayout mLlMain;
 
@@ -157,7 +158,7 @@ public class FloatViewService extends Service {
     public void onDestroy() {
         super.onDestroy();
         mCoinScaleAnim.cancel();
-        mTvCoin.clearAnimation();
+        mIvCoin.clearAnimation();
         mEtShakeAnim.cancel();
         mEtTaskContent.clearAnimation();
         mCountDownTimer.cancel();
@@ -170,11 +171,10 @@ public class FloatViewService extends Service {
                 .setContentText("::TaskMiner::可以方便地规划您的时间💰")
                 .setAutoCancel(false)
                 .setOngoing(true)
-                .setSmallIcon(R.drawable.shp_coin)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.shp_coin))
+                .setSmallIcon(R.drawable.lylst_ic_launcher)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.vc_coin))
                 .setWhen(System.currentTimeMillis())
                 .build();
-        Log.d("aa", "::TaskMiner::可以方便地规划您的时间💰");
         startForeground(1919191, notification);
     }
 
@@ -220,7 +220,7 @@ public class FloatViewService extends Service {
         mFloatView = View.inflate(this, R.layout.view_float_window, null);
         ButterKnife.bind(this, mFloatView);
         setTouchEvent(mLlTitle);
-        setTouchEvent(mTvSymbol);
+        setTouchEvent(mIvSymbol);
         mWindowManager.addView(mFloatView, param);
     }
 
@@ -273,17 +273,17 @@ public class FloatViewService extends Service {
             // left or right edge, transform from bar to symbol
             if (View.VISIBLE == mLlMain.getVisibility()) {
                 mLlMain.setVisibility(View.GONE);
-                mTvSymbol.setVisibility(View.VISIBLE);
+                mIvSymbol.setVisibility(View.VISIBLE);
             }
             // when goes to right side, let symbol shrink to right side
-            if (floatWindowRight >= metrics.widthPixels && View.VISIBLE == mTvSymbol.getVisibility()) {
-                upParam.x = metrics.widthPixels - mTvSymbol.getMeasuredWidth();
+            if (floatWindowRight >= metrics.widthPixels && View.VISIBLE == mIvSymbol.getVisibility()) {
+                upParam.x = metrics.widthPixels - mIvSymbol.getMeasuredWidth();
                 mWindowManager.updateViewLayout(mFloatView, upParam);
             }
         } else if (View.VISIBLE != mLlMain.getVisibility()) {
             // not edge, transform from symbol to bar
             mLlMain.setVisibility(View.VISIBLE);
-            mTvSymbol.setVisibility(View.GONE);
+            mIvSymbol.setVisibility(View.GONE);
         }
     }
 
@@ -353,7 +353,7 @@ public class FloatViewService extends Service {
         mTvTaskContent.setText(mTaskContent);
         mTvTime.setText("剩余" + mTaskExpectTimeMin + "分钟");
         mTvBonus.setText("" + mTaskExpectBonus);
-        mTvCoin.startAnimation(mCoinScaleAnim);
+        mIvCoin.startAnimation(mCoinScaleAnim);
 
         // 开始倒计时
         mCountDownTimer = new CountDownTimer(mTaskExpectDuration * 2, 1000) {

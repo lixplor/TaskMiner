@@ -4,21 +4,15 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tv_symbol"
+    <ImageView
+        android:id="@+id/iv_symbol"
         android:layout_width="34dp"
         android:layout_height="34dp"
-        android:layout_gravity="center"
-        android:background="@drawable/shp_coin_big"
-        android:gravity="center"
+        android:src="@drawable/vc_coin"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:clickable="true"
         android:alpha="0.5"
-        android:text="G"
-        android:textColor="@color/gold_stroke"
-        android:textSize="20sp"
-        android:textStyle="bold"
         android:visibility="gone"/>
 
     <LinearLayout
@@ -68,20 +62,15 @@
                     android:layout_marginRight="19dp"
                     android:gravity="center"
                     android:text="0"
-                    android:textColor="@color/gold_solid"/>
+                    android:textColor="@color/gold_stroke"/>
 
-                <TextView
-                    android:id="@+id/tv_coin"
+                <ImageView
+                    android:id="@+id/iv_coin"
                     android:layout_width="13dp"
                     android:layout_height="13dp"
                     android:layout_gravity="right|center_vertical"
                     android:layout_marginRight="4dp"
-                    android:background="@drawable/shp_coin"
-                    android:gravity="center"
-                    android:text="G"
-                    android:textColor="@color/gold_stroke"
-                    android:textSize="8sp"
-                    android:textStyle="bold"/>
+                    android:src="@drawable/vc_coin"/>
 
             </FrameLayout>
 

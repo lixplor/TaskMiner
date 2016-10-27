@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <size android:height="100dp"
+                  android:width="100dp"/>
+            <solid android:color="@color/gold_solid"/>
+        </shape>
+    </item>
+    <item android:left="20dp"
+          android:right="20dp"
+          android:top="20dp"
+          android:bottom="20dp"
+          android:gravity="center"
+          android:drawable="@drawable/vc_coin"/>
+</layer-list>
