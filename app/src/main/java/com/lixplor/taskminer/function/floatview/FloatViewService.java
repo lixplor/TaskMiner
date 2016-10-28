@@ -42,6 +42,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
@@ -109,6 +111,7 @@ public class FloatViewService extends Service {
     private ScaleAnimation mCoinScaleAnim;
     private TranslateAnimation mEtShakeAnim;
     private CountDownTimer mCountDownTimer;
+    private RotateAnimation mSymbolRotateAnim;
 
     // Sounds
     private int mSoundClickId;
@@ -149,6 +152,7 @@ public class FloatViewService extends Service {
         mTvTimeExpect.setText("" + mTaskExpectTimeMin);
         createCoinAnim();
         createEtShakeAnim();
+        createSymbolRotateAnim();
         initSoundEffect();
         startFgService();
         return START_REDELIVER_INTENT;
@@ -197,6 +201,18 @@ public class FloatViewService extends Service {
         mEtShakeAnim.setRepeatMode(Animation.RESTART);
         mEtShakeAnim.setRepeatCount(2);
         mEtShakeAnim.setInterpolator(new DecelerateInterpolator(1f));
+    }
+
+    private void createSymbolRotateAnim(){
+        mSymbolRotateAnim = new RotateAnimation(
+                0f, 359f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f
+        );
+        mSymbolRotateAnim.setDuration(1000);
+        mSymbolRotateAnim.setRepeatCount(Animation.INFINITE);
+        mSymbolRotateAnim.setRepeatMode(Animation.RESTART);
+        mSymbolRotateAnim.setInterpolator(new LinearInterpolator());
     }
 
     private void createFloatView() {
@@ -274,6 +290,11 @@ public class FloatViewService extends Service {
             if (View.VISIBLE == mLlMain.getVisibility()) {
                 mLlMain.setVisibility(View.GONE);
                 mIvSymbol.setVisibility(View.VISIBLE);
+                if(isDoingTask){
+                    mIvSymbol.startAnimation(mSymbolRotateAnim);
+                }else{
+                    mIvSymbol.clearAnimation();
+                }
             }
             // when goes to right side, let symbol shrink to right side
             if (floatWindowRight >= metrics.widthPixels && View.VISIBLE == mIvSymbol.getVisibility()) {
@@ -284,6 +305,7 @@ public class FloatViewService extends Service {
             // not edge, transform from symbol to bar
             mLlMain.setVisibility(View.VISIBLE);
             mIvSymbol.setVisibility(View.GONE);
+            mIvSymbol.clearAnimation();
         }
     }
 
@@ -450,6 +472,9 @@ public class FloatViewService extends Service {
         isDoingTask = false;
         mCoinScaleAnim.cancel();
         mCoinScaleAnim.reset();
+        if(View.VISIBLE == mIvSymbol.getVisibility()){
+            mIvSymbol.clearAnimation();
+        }
         Task task = new Task();
         task.setId(null);
         task.setContent(mTaskContent);
