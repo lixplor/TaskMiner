@@ -343,17 +343,21 @@ public class FloatViewService extends Service {
             mWindowManager.updateViewLayout(mFloatView, params);
         } else {
             mLlInputWindow.setVisibility(View.GONE);
-            mTvTaskContent.setMarqueeRepeatLimit(-1);
-            mTvTaskContent.setSingleLine();
-            mTvTaskContent.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-            mTvTaskContent.setFocusableInTouchMode(true);
-            mTvTaskContent.setFocusable(true);
-            mTvTaskContent.setSelected(true);
             WindowManager.LayoutParams params = (WindowManager.LayoutParams) mFloatView.getLayoutParams();
             params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                     | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
             mWindowManager.updateViewLayout(mFloatView, params);
+            requestMarquee();
         }
+    }
+
+    private void requestMarquee(){
+        mTvTaskContent.setMarqueeRepeatLimit(-1);
+        mTvTaskContent.setSingleLine();
+        mTvTaskContent.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        mTvTaskContent.setFocusableInTouchMode(true);
+        mTvTaskContent.setFocusable(true);
+        mTvTaskContent.setSelected(true);
     }
 
     private void onTaskCreate() {
