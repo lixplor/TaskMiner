@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
+import android.graphics.Rect;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -32,6 +33,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
@@ -100,11 +102,14 @@ public class FloatViewService extends Service {
     LinearLayout mLlMain;
 
     private View mFloatView;
+    private View mRootView;
+    private Rect mKeyboardRect;
     private WindowManager mWindowManager;
     private ScaleAnimation mCoinScaleAnim;
     private TranslateAnimation mEtShakeAnim;
     private CountDownTimer mCountDownTimer;
     private RotateAnimation mSymbolRotateAnim;
+    private OnKeyboardChangeListener mOnKeyboardChangeListener;
 
     // Sounds
     private int mSoundClickId;
@@ -141,6 +146,7 @@ public class FloatViewService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         createFloatView();
+        registerKeyboardListener();
         mTvTaskContent.setSelected(true);
         mTvTimeExpect.setText("" + mTaskExpectTimeMin);
         createCoinAnim();
@@ -159,6 +165,8 @@ public class FloatViewService extends Service {
         mEtShakeAnim.cancel();
         mEtTaskContent.clearAnimation();
         mCountDownTimer.cancel();
+        unregisterKeyboardListener(mOnKeyboardChangeListener);
+        mOnKeyboardChangeListener = null;
     }
 
     private void startFgService() {
@@ -349,6 +357,17 @@ public class FloatViewService extends Service {
             mWindowManager.updateViewLayout(mFloatView, params);
             requestMarquee();
         }
+    }
+
+    private void registerKeyboardListener(){
+        mKeyboardRect = new Rect();
+        mRootView = mFloatView.getRootView();
+        mOnKeyboardChangeListener = new OnKeyboardChangeListener();
+        mFloatView.getViewTreeObserver().addOnGlobalLayoutListener(mOnKeyboardChangeListener);
+    }
+
+    private void unregisterKeyboardListener(OnKeyboardChangeListener onKeyboardChangeListener){
+        mFloatView.getViewTreeObserver().removeOnGlobalLayoutListener(onKeyboardChangeListener);
     }
 
     private void requestMarquee(){
@@ -586,4 +605,19 @@ public class FloatViewService extends Service {
         SoundUtil.playOnce(mVoiceUnexpectedId);
     }
 
+    private class OnKeyboardChangeListener implements ViewTreeObserver.OnGlobalLayoutListener{
+
+        @Override
+        public void onGlobalLayout() {
+            mRootView.getWindowVisibleDisplayFrame(mKeyboardRect);
+            int screenHeight = mWindowManager.getDefaultDisplay().getHeight();
+            int keyboardCoveredHeight = screenHeight - mKeyboardRect.bottom;
+            if(keyboardCoveredHeight > 0){
+                // move up
+                WindowManager.LayoutParams params = (WindowManager.LayoutParams) mFloatView.getLayoutParams();
+                params.y -= keyboardCoveredHeight;
+                mWindowManager.updateViewLayout(mFloatView, params);
+            }
+        }
+    }
 }
