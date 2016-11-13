@@ -28,6 +28,8 @@
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
                 <action android:name="com.lixplor.taskminer.ACTION_DEL_ITEM"/>
                 <action android:name="com.lixplor.taskminer.ACTION_BONUS_CHANGED"/>
+                <action android:name="com.lixplor.taskminer.ACTION_PAGE_PRE"/>
+                <action android:name="com.lixplor.taskminer.ACTION_PAGE_NEXT"/>
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"

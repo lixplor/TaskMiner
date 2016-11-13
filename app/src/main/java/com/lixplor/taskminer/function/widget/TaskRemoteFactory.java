@@ -25,6 +25,7 @@ import android.widget.RemoteViewsService;
 import com.lixplor.taskminer.R;
 import com.lixplor.taskminer.base.BaseApp;
 import com.lixplor.taskminer.bean.Task;
+import com.lixplor.taskminer.repository.TaskDao;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,7 +39,13 @@ import java.util.List;
  */
 public class TaskRemoteFactory implements RemoteViewsService.RemoteViewsFactory {
 
+    private static final int sLimit = 5;
+
+    private static int sOffset = 0;
+    private static int sCurrentPage = 1;
+
     private List<Task> mTasks = new ArrayList<>();
+    private TaskDao mTaskDao;
     private Context mContext;
     private int mTotalBonus;
     private boolean mShowDelBtn = true;
@@ -49,15 +56,18 @@ public class TaskRemoteFactory implements RemoteViewsService.RemoteViewsFactory 
 
     @Override
     public void onCreate() {
+        mTaskDao = BaseApp.getDaoSession().getTaskDao();
         mTasks.clear();
-        mTasks.addAll(BaseApp.getDaoSession().getTaskDao().loadAll());
+        List<Task> tasks = mTaskDao.queryBuilder().offset(sOffset).limit(sLimit).build().list();
+        mTasks.addAll(tasks);
         Collections.reverse(mTasks);
     }
 
     @Override
     public void onDataSetChanged() {
         mTasks.clear();
-        mTasks.addAll(BaseApp.getDaoSession().getTaskDao().loadAll());
+        List<Task> tasks = mTaskDao.queryBuilder().offset(sOffset).limit(sLimit).build().list();
+        mTasks.addAll(tasks);
         Collections.reverse(mTasks);
         Log.d("aa", mTasks.toString());
         Intent intent = new Intent(TaskWidgetProvider.ACTION_BONUS_CHANGED);
@@ -82,20 +92,27 @@ public class TaskRemoteFactory implements RemoteViewsService.RemoteViewsFactory 
         }
         Task task = mTasks.get(position);
         RemoteViews item = new RemoteViews(mContext.getPackageName(), R.layout.item_widget_task);
+        // task number
         item.setTextViewText(R.id.tv_id, "#" + task.getId());
+        // task status
         boolean isSuccess = task.getIsSuccess();
         item.setTextViewText(R.id.tv_status, isSuccess ? "完成" : "失败");
         item.setImageViewResource(R.id.iv_status_bg, isSuccess ? R.color.green : R.color.red);
+        // task content
         item.setTextViewText(R.id.tv_content, task.getContent());
+        // duration
         long actualDuration = task.getEndTime() - task.getStartTime();
         long expectDuration = task.getExpectDuration();
         int usedMin = (int) (actualDuration / 1000 / 60);
         int expectMin = (int) (expectDuration / 1000 / 60);
         item.setTextViewText(R.id.tv_duration, usedMin + "/" + expectMin + "分钟");
+        // bonus
         item.setTextViewText(R.id.tv_bonus, task.getActualBonus() + "/" + task.getExpectBonus());
+        // delete record
         Intent delItemIntent = new Intent(TaskWidgetProvider.ACTION_DEL_ITEM);
         delItemIntent.putExtra("task", task);
         item.setOnClickFillInIntent(R.id.btn_del, delItemIntent);
+        // del btn
         if (mShowDelBtn) {
             item.setViewVisibility(R.id.btn_del, View.VISIBLE);
         } else {
@@ -122,5 +139,26 @@ public class TaskRemoteFactory implements RemoteViewsService.RemoteViewsFactory 
     @Override
     public boolean hasStableIds() {
         return true;
+    }
+
+    public static int prePage(){
+        if(sOffset - sLimit >= 0){
+            sOffset -= sLimit;
+        }
+        sCurrentPage = sOffset / sLimit + 1;
+        return sCurrentPage;
+    }
+
+    public static int nextPage(){
+        int taskSize = BaseApp.getDaoSession().getTaskDao().loadAll().size();
+        if(sOffset + sLimit < taskSize){
+            sOffset += sLimit;
+        }
+        sCurrentPage = sOffset / sLimit + 1;
+        return sCurrentPage;
+    }
+
+    public static int getLimit(){
+        return sLimit;
     }
 }

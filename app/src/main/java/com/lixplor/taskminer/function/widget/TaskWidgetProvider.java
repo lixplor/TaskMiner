@@ -44,6 +44,11 @@ public class TaskWidgetProvider extends AppWidgetProvider {
 
     public static final String ACTION_DEL_ITEM = "com.lixplor.taskminer.ACTION_DEL_ITEM";
     public static final String ACTION_BONUS_CHANGED = "com.lixplor.taskminer.ACTION_BONUS_CHANGED";
+    public static final String ACTION_PAGE_PRE = "com.lixplor.taskminer.ACTION_PAGE_PRE";
+    public static final String ACTION_PAGE_NEXT = "com.lixplor.taskminer.ACTION_PAGE_NEXT";
+
+    private static int sTotalPage;
+    private static int sCurrentPage = 1;
 
     private TaskDao mTaskDao;
     private int mTotalBonus;
@@ -71,6 +76,14 @@ public class TaskWidgetProvider extends AppWidgetProvider {
                 break;
             case ACTION_BONUS_CHANGED:
                 updateTotalCoin(context);
+                break;
+            case ACTION_PAGE_PRE:
+                sCurrentPage = TaskRemoteFactory.prePage();
+                updateData(context);
+                break;
+            case ACTION_PAGE_NEXT:
+                sCurrentPage = TaskRemoteFactory.nextPage();
+                updateData(context);
                 break;
         }
     }
@@ -113,9 +126,20 @@ public class TaskWidgetProvider extends AppWidgetProvider {
             }
             rv.setTextViewText(R.id.tv_bonus_total, "" + mTotalBonus);
 
+            // total page number
+            sTotalPage = tasks.size() / TaskRemoteFactory.getLimit() + 1;
+            rv.setTextViewText(R.id.tv_page, sCurrentPage + "/" + sTotalPage);
+
             // listview click template
             Intent delItemIntent = new Intent(TaskWidgetProvider.ACTION_DEL_ITEM);
             rv.setPendingIntentTemplate(R.id.lv_tasks, PendingIntent.getBroadcast(context, 0, delItemIntent, 0));
+
+            // pre page
+            Intent prePageIntent = new Intent(TaskWidgetProvider.ACTION_PAGE_PRE);
+            rv.setOnClickPendingIntent(R.id.btn_pre, PendingIntent.getBroadcast(context, 0, prePageIntent, 0));
+            // next page
+            Intent nextPageIntent = new Intent(TaskWidgetProvider.ACTION_PAGE_NEXT);
+            rv.setOnClickPendingIntent(R.id.btn_next, PendingIntent.getBroadcast(context, 0, nextPageIntent, 0));
 
             mRemoteViewses.add(i, rv);
 
