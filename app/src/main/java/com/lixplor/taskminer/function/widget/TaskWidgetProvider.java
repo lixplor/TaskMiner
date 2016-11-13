@@ -58,7 +58,7 @@ public class TaskWidgetProvider extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         String action = intent.getAction();
-        Log.d("aa", "onReceive: Action=" + action);
+        Log.d("aa", "[WIDGET BRDCST RCV] action=" + action);
         switch (action) {
             case AppWidgetManager.ACTION_APPWIDGET_UPDATE:
                 updateData(context);
@@ -103,7 +103,6 @@ public class TaskWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
-        Log.d("aa", "onUpdate(): appWidgetIds.length=" + appWidgetIds.length);
 
         List<RemoteViews> mRemoteViewses = new ArrayList<>();
 
@@ -151,25 +150,21 @@ public class TaskWidgetProvider extends AppWidgetProvider {
     @Override
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
         super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
-        Log.d("aa", "onAppWidgetOptionsChanged");
     }
 
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
-        Log.d("aa", "onDeleted(): appWidgetIds.length=" + appWidgetIds.length);
         super.onDeleted(context, appWidgetIds);
     }
 
     @Override
     public void onEnabled(Context context) {
         super.onEnabled(context);
-        Log.d("aa", "onEnabled");
     }
 
     @Override
     public void onDisabled(Context context) {
         super.onDisabled(context);
-        Log.d("aa", "onDisabled");
     }
 
 
