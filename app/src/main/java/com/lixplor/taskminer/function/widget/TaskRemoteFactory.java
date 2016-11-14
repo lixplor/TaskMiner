@@ -39,7 +39,7 @@ import java.util.List;
  */
 public class TaskRemoteFactory implements RemoteViewsService.RemoteViewsFactory {
 
-    private static final int sLimit = 5;
+    private static final int sLimit = 20;
 
     private static int sOffset = 0;
     private static int sCurrentPage = 1;
